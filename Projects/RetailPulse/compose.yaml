@@ -1,0 +1,21 @@
+name: retailpulse
+
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${RETAILPULSE_PASSWORD:-retailpulse_demo}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+    volumes:
+      - retailpulse_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "MYSQL_PWD=$$MYSQL_ROOT_PASSWORD mysqladmin ping --host=127.0.0.1 --user=root --silent"]
+      interval: 3s
+      timeout: 5s
+      retries: 30
+      start_period: 15s
+
+volumes:
+  retailpulse_data:
