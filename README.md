@@ -22,6 +22,14 @@ queries, relationships, advanced SQL, database design, and real-world problem so
 
 ---
 
+## 🛒 Featured SQL Project: RetailPulse
+
+Build and analyze a complete MySQL retail database with **600 customers, 3,600 orders, 13 business reports, transactional stock reservations, and executable SQL checks**.
+
+[**Open the RetailPulse project →**](Projects/RetailPulse/README.md) · [Verified sample results](Projects/RetailPulse/docs/analysis_results.md)
+
+---
+
 ## 📌 About
 
 **SQL Journey** is a structured collection of SQL concepts, examples, exercises, and practical database problems.
@@ -650,7 +658,7 @@ to be demonstrated using a consistent database structure.
 
 # 🏆 Practical Project
 
-The repository concludes with a practical **Employee Management System** database that combines multiple SQL concepts into a single structured project.
+The repository includes **[RetailPulse](Projects/RetailPulse/README.md)**, a complete MySQL retail analytics and stock reservation project. It combines a relational schema, deterministic sample data, revenue and retention analysis, financial reconciliation, row locking, rollback tests, and query plans. Start with its README for Docker and native MySQL instructions.
 
 The project demonstrates:
 
@@ -703,3 +711,4 @@ B.Tech CSE — Artificial Intelligence & Machine Learning
 **Learn → Query → Analyze → Build**
 
 </div>
+
