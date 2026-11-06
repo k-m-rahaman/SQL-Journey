@@ -1,0 +1,50 @@
+name: RetailPulse SQL checks
+
+on:
+  push:
+    paths:
+      - 'Projects/RetailPulse/**'
+      - '.github/workflows/retailpulse.yml'
+  pull_request:
+    paths:
+      - 'Projects/RetailPulse/**'
+      - '.github/workflows/retailpulse.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  database-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: retailpulse_ci
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --host=127.0.0.1 --user=root --password=retailpulse_ci --silent"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install MySQL client
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install --yes mysql-client
+      - name: Build, verify, and run every SQL report
+        working-directory: Projects/RetailPulse
+        env:
+          MYSQL_PWD: retailpulse_ci
+        shell: bash
+        run: |
+          set -euo pipefail
+          mysql --host=127.0.0.1 --user=root --execute='SELECT VERSION();'
+          for file in 01_schema 02_seed 03_views 05_procedures 06_tests 04_analytics 07_performance; do
+            echo ">>> ${file}.sql"
+            mysql --host=127.0.0.1 --user=root --default-character-set=utf8mb4 --show-warnings < "sql/${file}.sql"
+          done
